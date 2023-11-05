@@ -1,8 +1,8 @@
 <template>
     <div class="product-card-container">
         <div class="card text-bg-dark product-card">
-            <img src="https://www.mountaingoatsoftware.com/uploads/blog/2016-09-06-what-is-a-product-quote.png" class="product-card-image" alt="">
-            <!-- <Image cloudName="diggwedxe" publicId={product.image.public_id} class="product-card-image"/> -->
+            <img v-if="demo" :src="selectedImageUrl ? selectedImageUrl : 'https://userguiding.com/wp-content/uploads/2021/05/product-service-manager.jpg'" alt="Product"  className="product-card-image" />
+            <CloudImage v-else :imageId="product.image.public_id" class="product-card-image"/>
             <div class="card-img-overlay product-details-container ">
                 <div>
                     <h5 class="product-card-title card-title">{{product.productName}}</h5>
@@ -24,15 +24,23 @@
 </template>
 
 <script>
+    import CloudImage from './CloudImage.vue'; 
     export default {
-        data(){
-            return{
-                product:{
-                    productName: "lksajdklsajdlksajlkd",
-                    description: "ksajdlkjsalkdjsalkdjlksajdksadlksajdlksajdlkjsadjsalkjd",
-                    initialPrice: 0,
-                    latestPrice: 0,
-                }
+        name: 'Card',
+        components: {
+            CloudImage
+        },
+        props:{
+            product:{
+                type: Object,
+                required: true
+            },
+            demo: {
+                type: Boolean,   
+                default: false
+            },
+            selectedImageUrl: {
+                type: String,   
             }
         }
     }

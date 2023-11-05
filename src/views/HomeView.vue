@@ -1,10 +1,10 @@
 <script>
-import Card from '../components/Card.vue'
-import Carousel from '../components/Carousel.vue'
+import Modal from '../components/BaseComponents/Modal.vue'
+import Carousel from '../components/BaseComponents/Carousel.vue'
 
 export default{
   components:{
-    Card,
+    Modal,
     Carousel
   }
 }

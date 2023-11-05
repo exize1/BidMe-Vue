@@ -1,67 +1,63 @@
-
-
 <template>
  <div class="acution-container ">
     <div class='filter-button-container'>
-        <FilterByCategory setCategory={setCategory} setCardsFiltered={setCardsFiltered} />
+        <FilterByCategory @set-category="setCategory"/>
     </div>
     <div>
-      <template v-for="(category, categoryIndex) in categories" :key="categoryIndex">
+      <template v-for="(category, categoryIndex) in filteredCategories" :key="categoryIndex">
           <div class='auction-background-container'>
               <div class='auction-background'>
                   <img class='background' :src="category.background" :alt="category.category" />
               </div>
           </div>
           <div class='category-container'>
-              <div class='category'>
+              <div :class='`category ${filteredCategories.length === 1 && "one-category-container"}`'>
                   <div class='container'>
-                      <h2 class='row' key={{categoryIndex}}>{{category.category}}</h2>
-                      <!-- <div class="cards-container" :class="cardsFiltered ? "flex-wrap-cards" : "flex-nowrap-cards"}`""> -->
-                      <div class="cards-container">
-                          <!-- { ? -->
-                              <div v-if="filtered(category.category).length === 0" class='my-3'>
-                                  <h3 > No products on this category. want to be the first one?</h3>
-                                  <!-- <AddProduct /> -->
-                              </div>
-                              <template v-else> 
+                      <h2 class='row' >{{category.category}}</h2>
+                      <div class="cards-container" :class="filteredCategories.length > 1 ? 'flex-nowrap-cards' : 'flex-wrap-cards'">
+                            <div v-if="filtered(category.category).length === 0" class='my-3'>
+                                <h3 > No products on this category. want to be the first one?</h3>
+                                <AddProductModal />
+                            </div>
+                            <template v-else> 
                                     <div v-for="(product, index) in filtered(category.category)" :key="product.id">
-                                        <div v-if="categories.length > 1">
+                                        <div v-if="filteredCategories.length > 1">
                                             <div v-if="index > filtered(category.category).length - 5" class='link-container'>
-                                                <!-- <Link to={product._id}> -->
-                                                    <Card key={{index}} product={{product}}></Card>
-                                                <!-- </Link> -->
+                                                <RouterLink :to="`auctions/${product._id}`">    
+                                                    <Card :product="product"/>
+                                                </RouterLink>
                                             </div>
-                                            <div v-else-if="index > filtered(category.category).length - 5">
-                                                <button class='continue-products'>
-                                                <!-- <button class='continue-products' @click={() => {
-                                                                  setCategory([categories[categoryIndex]])
-                                                                  setCardsFiltered(true)
-                                                              }}> -->
-                                                              <!-- <FontAwesomeIcon icon="fa-arrow-right" /> -->
+                                            <div v-else-if="index === filtered(category.category).length - 5">
+                                                <button class='continue-products'  @click="() => {setCategory(categories[categoryIndex].category)}">
+                                                    <FontAwesomeIcon icon="fa-arrow-right" />
                                                 </button>
                                             </div>
                                         </div>
                                         <div v-else>
                                             <div class='link-container'>
-                                                <!-- <Link to={product._id}> -->
-                                                    <Card key={index} product={product} />
-                                                <!-- </Link> -->
+                                                <RouterLink :to="`auctions/${product._id}`">
+                                                    <Card :product="product"/>
+                                                </RouterLink>
                                             </div>
                                         </div>
                                     </div>
-                              </template>
-                            </div>
+                            </template>
                         </div>
                     </div>
                 </div>
-            </template>
+            </div>
+        </template>
       </div>
   </div>
 </template>
 
 <script>
-  import Card from "../components/Card.vue"
-  import FilterByCategory from "../components/FilterByCategory.vue"
+  import { RouterLink } from "vue-router";
+  import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+  import Card from "../components/BaseComponents/Card.vue"
+  import FilterByCategory from "../components/BaseComponents/FilterByCategory.vue"
+  import AddProductModal from "../components/CostumeComponents/AddProductModal.vue"
+  
   export default {
     name: 'AuctionsView',
     data() {
@@ -76,99 +72,13 @@
           { category: "sporting", background: "https://i.pinimg.com/originals/3c/c4/8d/3cc48d64caa3cc00ad176a2af2506bea.jpg" },
           { category: "toys", background: "https://i.ytimg.com/vi/wiHZ-VEm3o0/maxresdefault.jpg" }
         ],
-        products:[
-                    {
-                        productName: "lksajdklsajdlksajlkd",
-                        description: "ksajdlkjsalkdjsalkdjlksajdksadlksajdlksajdlkjsadjsalkjd",
-                        initialPrice: 10,
-                        image: {
-                            public_id: "https://res.cloudinary.com/diggwedxe/image/upload/fht03g3r3cmwgzbkgfcn"},
-                        latestPrice: 120,
-                        category: "collectibles",
-                        id: '1'
-                    },
-                    {
-                        productName: "lksajdklsajdlksajlkd",
-                        description: "ksajdlkjsalkdjsalkdjlksajdksadlksajdlksajdlkjsadjsalkjd",
-                        initialPrice: 10,
-                        image: {
-                            public_id: "https://sivanlotan-jewelry.com/cdn/shop/products/5a7f656c37ec431591e8c5deb64200cc.thumbnail.0000000_1024x.jpg?v=1653035631"},
-                        latestPrice: 150,
-                        category: "collectibles",
-                        id: '12'
-                    },
-                    {
-                        productName: "lksajdklsajdlksajlkd",
-                        description: "ksajdlkjsalkdjsalkdjlksajdksadlksajdlksajdlkjsadjsalkjd",
-                        initialPrice: 20,
-                        image: {
-                            public_id: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOobrScQ2fypvdHUpqhQy7dLjUAlYdRRnDJg&usqp=CAU"},
-                        latestPrice: 30,
-                        category: "electronics",
-                        id: '13'
-                    },
-                    {
-                        productName: "lksajdklsajdlksajlkd",
-                        description: "ksajdlkjsalkdjsalkdjlksajdksadlksajdlksajdlkjsadjsalkjd",
-                        initialPrice: 10,
-                        image: {
-                            public_id: "https://res.cloudinary.com/diggwedxe/image/upload/fht03g3r3cmwgzbkgfcn"},
-                        latestPrice: 120,
-                        category: "collectibles",
-                        id: '1'
-                    },
-                    {
-                        productName: "lksajdklsajdlksajlkd",
-                        description: "ksajdlkjsalkdjsalkdjlksajdksadlksajdlksajdlkjsadjsalkjd",
-                        initialPrice: 10,
-                        image: {
-                            public_id: "https://sivanlotan-jewelry.com/cdn/shop/products/5a7f656c37ec431591e8c5deb64200cc.thumbnail.0000000_1024x.jpg?v=1653035631"},
-                        latestPrice: 150,
-                        category: "collectibles",
-                        id: '12'
-                    },
-                    {
-                        productName: "lksajdklsajdlksajlkd",
-                        description: "ksajdlkjsalkdjsalkdjlksajdksadlksajdlksajdlkjsadjsalkjd",
-                        initialPrice: 20,
-                        image: {
-                            public_id: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOobrScQ2fypvdHUpqhQy7dLjUAlYdRRnDJg&usqp=CAU"},
-                        latestPrice: 30,
-                        category: "electronics",
-                        id: '13'
-                    },
-                    {
-                        productName: "lksajdklsajdlksajlkd",
-                        description: "ksajdlkjsalkdjsalkdjlksajdksadlksajdlksajdlkjsadjsalkjd",
-                        initialPrice: 10,
-                        image: {
-                            public_id: "https://res.cloudinary.com/diggwedxe/image/upload/fht03g3r3cmwgzbkgfcn"},
-                        latestPrice: 120,
-                        category: "collectibles",
-                        id: '1'
-                    },
-                    {
-                        productName: "lksajdklsajdlksajlkd",
-                        description: "ksajdlkjsalkdjsalkdjlksajdksadlksajdlksajdlkjsadjsalkjd",
-                        initialPrice: 10,
-                        image: {
-                            public_id: "https://sivanlotan-jewelry.com/cdn/shop/products/5a7f656c37ec431591e8c5deb64200cc.thumbnail.0000000_1024x.jpg?v=1653035631"},
-                        latestPrice: 150,
-                        category: "collectibles",
-                        id: '12'
-                    },
-                    {
-                        productName: "lksajdklsajdlksajlkd",
-                        description: "ksajdlkjsalkdjsalkdjlksajdksadlksajdlksajdlkjsadjsalkjd",
-                        initialPrice: 20,
-                        image: {
-                            public_id: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOobrScQ2fypvdHUpqhQy7dLjUAlYdRRnDJg&usqp=CAU"},
-                        latestPrice: 30,
-                        category: "electronics",
-                        id: '13'
-                    },
-            ],
+        filteredCategories: [],
       };
+    },
+    computed:{
+        products(){
+            return this.$store.state.products 
+        }
     },
     methods:{
       filtered(category){
@@ -181,12 +91,27 @@
                   }else return null
               })
           )
+        },
+        setCategory(category){
+            if (category === null) return
+            if(category === "") {
+                this.filteredCategories = this.categories
+                return
+            }
+            this.filteredCategories = this.categories.filter((categoryObject) => categoryObject.category === category)
         }
     },
     components:{
-      Card,
-      FilterByCategory
-    }
+    Card,
+    FilterByCategory,
+    AddProductModal,
+    RouterLink,
+    FontAwesomeIcon
+},
+    mounted(){
+        this.filteredCategories = this.categories
+    },
+
   }
  
 
@@ -194,7 +119,7 @@
 
 <style>
 .acution-container{
-    padding-top: 75px;
+    padding-top: 10px;
 }
 
 .filter-button-container{
@@ -236,6 +161,13 @@
 
     filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#DCEAF7", endColorstr="#EEF6FC", GradientType=1 );
 }
+
+.one-category-container{
+    height: 700px !important;
+    min-height: fit-content !important;
+    max-height: none !important;
+}
+
 
 .cards-container{
     display: flex;

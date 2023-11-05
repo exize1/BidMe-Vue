@@ -1,6 +1,6 @@
 <template>
     <div className="carousel-flex">
-        <div v-if="sortProducts().length !== 0" id="carouselExampleDark" className="carousel carousel-dark slide carousel-container" data-bs-ride="carousel">
+        <div v-if="sortedProducts.length !== 0" id="carouselExampleDark" className="carousel carousel-dark slide carousel-container" data-bs-ride="carousel">
             <div className="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -9,41 +9,38 @@
             <div className="carousel-inner">
                 <div className="carousel-item active" data-bs-interval="10000">
                     <div className="carousel-img-container">
-                        <img :src="sortProducts()[0].image.public_id" alt=""  class="carousel-img">
-                        <!-- <Image cloudName="diggwedxe" publicId={sortProducts()[0].image.public_id} className="carousel-img" /> -->
+                        <CloudImage :imageId="sortedProducts[0].image.public_id" className="carousel-img" />
                     </div>
                     <div className="carousel-caption d-none d-md-block carousel-details-container">
-                        <h5 className="carousel-title">{{sortProducts()[0].productName}}</h5>
-                        <p className="limit-lines">{{sortProducts()[0].description}}</p>
+                        <h5 className="carousel-title">{{sortedProducts[0].productName}}</h5>
+                        <p className="limit-lines">{{sortedProducts[0].description}}</p>
                     </div>
                     <div>
-                        <p className="carousel-caption profit d-none d-md-block">{{((sortProducts()[0].latestPrice - sortProducts()[0].initialPrice) / sortProducts()[0].initialPrice * 100).toFixed(0)}}% Profit!</p>
+                        <p className="carousel-caption profit d-none d-md-block">{{((sortedProducts[0].latestPrice - sortedProducts[0].initialPrice) / sortedProducts[0].initialPrice * 100).toFixed(0)}}% Profit!</p>
                     </div>
                 </div>
                 <div className="carousel-item" data-bs-interval="2000">
                     <div className="carousel-img-container">
-                        <img :src="sortProducts()[1].image.public_id" alt="" class="carousel-img">
-                        <!-- <Image cloudName="diggwedxe" publicId={sortProducts()[1].image.public_id} className="carousel-img" /> -->
+                        <CloudImage :imageId="sortedProducts[1].image.public_id" className="carousel-img" />
                     </div>
                     <div className="carousel-caption d-none d-md-block carousel-details-container">
-                        <h5>{{sortProducts()[1].productName}}</h5>
-                        <p className="limit-lines">{{sortProducts()[1].description}}.</p>
+                        <h5>{{sortedProducts[1].productName}}</h5>
+                        <p className="limit-lines">{{sortedProducts[1].description}}.</p>
                     </div>
                     <div>
-                        <p className="carousel-caption profit d-none d-md-block">{{((sortProducts()[1].latestPrice - sortProducts()[1].initialPrice) / sortProducts()[1].initialPrice * 100).toFixed(0)}}% Profit!</p>
+                        <p className="carousel-caption profit d-none d-md-block">{{((sortedProducts[1].latestPrice - sortedProducts[1].initialPrice) / sortedProducts[1].initialPrice * 100).toFixed(0)}}% Profit!</p>
                     </div>
                 </div>
                 <div className="carousel-item">
                     <div className="carousel-img-container">
-                        <img :src="sortProducts()[2].image.public_id" alt=""  class="carousel-img">
-                        <!-- <Image cloudName="diggwedxe" publicId={sortProducts()[2].image.public_id} className="carousel-img" /> -->
+                        <CloudImage :imageId="sortedProducts[2].image.public_id" className="carousel-img" />
                     </div>
                     <div className="carousel-caption d-none d-md-block carousel-details-container">
-                        <h5>{{sortProducts()[2].productName}}</h5>
-                        <p className="limit-lines">{{sortProducts()[2].description}}</p>
+                        <h5>{{sortedProducts[2].productName}}</h5>
+                        <p className="limit-lines">{{sortedProducts[2].description}}</p>
                     </div>
                     <div>
-                        <p className="carousel-caption profit d-none d-md-block">{{((sortProducts()[2].latestPrice - sortProducts()[2].initialPrice) / sortProducts()[2].initialPrice * 100).toFixed(0)}}% Profit!</p>
+                        <p className="carousel-caption profit d-none d-md-block">{{((sortedProducts[2].latestPrice - sortedProducts[2].initialPrice) / sortedProducts[2].initialPrice * 100).toFixed(0)}}% Profit!</p>
                     </div>
                 </div>
             </div>
@@ -60,37 +57,22 @@
 </template>
 
 <script>
+    import CloudImage from './CloudImage.vue';
     export default {
         name: 'Carousel',
-        methods:{
-            sortProducts(){
-                return[
-                    {
-                    productName: "lksajdklsajdlksajlkd",
-                    description: "ksajdlkjsalkdjsalkdjlksajdksadlksajdlksajdlkjsadjsalkjd",
-                    initialPrice: 10,
-                    image: {
-                        public_id: "https://res.cloudinary.com/diggwedxe/image/upload/fht03g3r3cmwgzbkgfcn"},
-                    latestPrice: 120,
-                },
-                    {
-                    productName: "lksajdklsajdlksajlkd",
-                    description: "ksajdlkjsalkdjsalkdjlksajdksadlksajdlksajdlkjsadjsalkjd",
-                    initialPrice: 10,
-                    image: {
-                        public_id: "https://sivanlotan-jewelry.com/cdn/shop/products/5a7f656c37ec431591e8c5deb64200cc.thumbnail.0000000_1024x.jpg?v=1653035631"},
-                    latestPrice: 150,
-                },
-                    {
-                    productName: "lksajdklsajdlksajlkd",
-                    description: "ksajdlkjsalkdjsalkdjlksajdksadlksajdlksajdlkjsadjsalkjd",
-                    initialPrice: 20,
-                    image: {
-                        public_id: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOobrScQ2fypvdHUpqhQy7dLjUAlYdRRnDJg&usqp=CAU"},
-                    latestPrice: 30,
-                },
-            ]
-            }
+        computed:{
+            products(){
+                return this.$store.state.products
+            },
+            sortedProducts(){
+                const copy = [...this.products]
+                const sortedProducts = copy.sort((a, b) => Number(b.latestPrice) / Number(b.initialPrice) - Number(a.latestPrice) / Number(a.initialPrice))
+
+                return sortedProducts
+            },
+        },
+        components:{
+            CloudImage
         }
     }
 </script>
