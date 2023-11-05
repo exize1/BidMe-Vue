@@ -1,85 +1,122 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+<script >
+import { RouterView } from 'vue-router'
+import Navbar from './components/BaseComponents/Navbar.vue'
+import { getBids, getProducts } from './middleWare'
+
+export default{
+  name:'App',
+  components:{
+    Navbar
+  },
+  created(){
+    getProducts()
+  },
+  mounted() {
+    getBids()
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      this.$store.dispatch("setUser", JSON.parse(savedUser));
+    }
+  },
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+    <Navbar />
+  <div class="app-container">
+    <RouterView />
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+<style >
+*{
+    font-family: 'Poppins', sans-serif;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.add-overflow{
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+.app-container{
+ padding-top: 65px;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.remove-decoration{
+  text-decoration: none;
+}
+.remove-borders{
+    border: 0;
+    background-color: rgba(255, 255, 255, 0);
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.popper{
+    position: absolute;
+    height: 0px;
+    font-size: 0;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
+.remove-borders:hover .popper{
+    color: white;
+    display: block;
+    position: absolute;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.911);
+    border-radius: 8px;
+    height: 30px;
+    width: max-content;
+    padding: 3px 10px 0 10px;
+    right: -150%;
     font-size: 1rem;
+}
 
-    padding: 1rem 0;
-    margin-top: 1rem;
+.error-message{
+    color: rgb(216, 86, 86);
+}
+
+@media only screen and (min-width: 600px){
+  .un-show-above-600{
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 600px){
+  .un-show-below-600{
+    display: none !important;
+  }
+}
+
+@media only screen and (min-width: 900px){
+  .un-show-above-900{
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 900px){
+  .un-show-below-900{
+    display: none !important;
+  }
+}
+
+@media only screen and (min-width: 820px){
+  .un-show-above-820{
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 820px){
+  .un-show-below-820{
+    display: none !important;
   }
 }
 </style>
