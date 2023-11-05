@@ -113,18 +113,18 @@ On this page, you can see every necessary detail on the product.
 
 In the images we can see the end of the auction from two perspectives: 
 
-End of auction from regular users' eyes
+End of the auction from regular users' eyes
 
 <p align="center"><img src="https://res.cloudinary.com/diggwedxe/image/upload/v1666188289/Screenshots/End-auction_pept91.jpg"/></p>
 
-End of auction from the product owner's eyes
+End of the auction from the product owner's eyes
 
 <p align="center"><img src="https://res.cloudinary.com/diggwedxe/image/upload/v1666188288/Screenshots/End-auction-product-owner_rgmca7.jpg"/></p>
 
 ## Technologies:
 
 ### Client-side:
-* React.JS
+* vue.JS
 * Cloudinary
 
 ### Server-side:
@@ -135,8 +135,8 @@ End of auction from the product owner's eyes
 ## Tools and libraries:
 
 ### Client-side:
-  * react-redux
-  * react-router
+  * vue-redux
+  * vue
   * bootstrap
   * axios
   * formik and yup
@@ -147,12 +147,3 @@ End of auction from the product owner's eyes
   * JWS
   * mongoose
   * Joi
-
-## What's next:
-- [ ] Add Phone number as an alternative option to login.
-- [ ] Add 'change password' and 'Delist all my auctions' options in the setting section. 
-- [ ] Replace the Credit Card option with Paypal or/and Tranzila instead of saving the user's card details in the DB. 
-- [ ] Improve the list of 'Most popular' (on the home page) so it will show the most popular at different times (24 hours, 7 days, 30 days).
-- [x] Link the search output to the product page.
-- [ ] Show in the auction page, only the Active products
-- [ ] Add skeleton
